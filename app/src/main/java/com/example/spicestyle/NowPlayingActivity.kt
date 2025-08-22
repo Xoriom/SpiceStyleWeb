@@ -7,6 +7,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.bumptech.glide.Glide
+import com.google.android.material.button.MaterialButton
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
@@ -22,11 +23,11 @@ class NowPlayingActivity : AppCompatActivity() {
     private lateinit var elapsed: TextView
     private lateinit var duration: TextView
     private lateinit var seekBar: SeekBar
-    private lateinit var prevBtn: ImageButton
-    private lateinit var playPauseBtn: ImageButton
-    private lateinit var nextBtn: ImageButton
-    private lateinit var shuffleBtn: Button
-    private lateinit var repeatBtn: Button
+    private lateinit var prevBtn: MaterialButton
+    private lateinit var playPauseBtn: MaterialButton
+    private lateinit var nextBtn: MaterialButton
+    private lateinit var shuffleBtn: MaterialButton
+    private lateinit var repeatBtn: MaterialButton
 
     private var isPlaying: Boolean = false
     private var totalMs: Long = 0L
@@ -82,7 +83,7 @@ class NowPlayingActivity : AppCompatActivity() {
             }
         })
 
-        // 🔧 Initial load (wrapped in a coroutine)
+        // Initial refresh
         lifecycleScope.launch { refresh() }
 
         // Poll/ticker loop while resumed
@@ -90,7 +91,6 @@ class NowPlayingActivity : AppCompatActivity() {
             repeatOnLifecycle(Lifecycle.State.RESUMED) {
                 while (true) {
                     if (isPlaying) {
-                        // advance locally to keep UI smooth
                         progressMs = (progressMs + 1000L).coerceAtMost(totalMs)
                         updateProgressUI()
                     }
@@ -124,11 +124,10 @@ class NowPlayingActivity : AppCompatActivity() {
                 }
 
                 updateProgressUI()
-                playPauseBtn.setImageResource(
+                playPauseBtn.setIconResource(
                     if (isPlaying) android.R.drawable.ic_media_pause else android.R.drawable.ic_media_play
                 )
             } else if (resp.code() == 204) {
-                // No active device / nothing playing
                 title.text = "Open Spotify and start playback"
                 subtitle.text = ""
                 coverArt.setImageDrawable(null)
@@ -136,9 +135,7 @@ class NowPlayingActivity : AppCompatActivity() {
                 totalMs = 0
                 progressMs = 0
                 updateProgressUI()
-                playPauseBtn.setImageResource(android.R.drawable.ic_media_play)
-            } else {
-                // ignore other codes for now
+                playPauseBtn.setIconResource(android.R.drawable.ic_media_play)
             }
         } catch (e: HttpException) {
             // often 403/404 when no active device—ignore gently
