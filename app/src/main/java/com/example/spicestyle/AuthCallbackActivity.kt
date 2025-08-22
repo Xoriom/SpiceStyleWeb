@@ -7,7 +7,6 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
-import okhttp3.FormBody
 import retrofit2.HttpException
 
 class AuthCallbackActivity : AppCompatActivity() {
@@ -51,7 +50,8 @@ class AuthCallbackActivity : AppCompatActivity() {
     }
 
     private fun finishToMain() {
-        startActivity(Intent(this, MainActivity::class.java).addFlags(
+        // Go straight to Now Playing instead of Main
+        startActivity(Intent(this, NowPlayingActivity::class.java).addFlags(
             Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
         ))
         finish()

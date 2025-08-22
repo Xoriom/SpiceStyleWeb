@@ -6,12 +6,12 @@ import java.security.MessageDigest
 import java.security.SecureRandom
 
 object AuthManager {
-    const val CLIENT_ID = "YOUR_SPOTIFY_CLIENT_ID" // <-- replace
-    const val REDIRECT_URI = "spicestyle://callback" // must match Manifest + Dashboard
+    const val CLIENT_ID = "a8d8149eaa8c4030bf16fc36eca2d496" // <-- replace
+    const val REDIRECT_URI = "spicestyle://callback"
     private const val AUTH_URL = "https://accounts.spotify.com/authorize"
     private const val TOKEN_URL = "https://accounts.spotify.com/api/token"
 
-    // scopes: add/remove based on what you’ll do
+    // Add/remove scopes as needed
     val SCOPES = listOf(
         "user-read-email",
         "playlist-read-private",
@@ -19,7 +19,6 @@ object AuthManager {
         "user-modify-playback-state"
     ).joinToString(" ")
 
-    // PKCE
     fun generateCodeVerifier(): String {
         val bytes = ByteArray(64)
         SecureRandom().nextBytes(bytes)
@@ -28,9 +27,8 @@ object AuthManager {
     }
 
     fun codeChallenge(verifier: String): String {
-        val bytes = verifier.toByteArray(Charsets.US_ASCII)
         val md = MessageDigest.getInstance("SHA-256")
-        val digest = md.digest(bytes)
+        val digest = md.digest(verifier.toByteArray(Charsets.US_ASCII))
         return Base64.encodeToString(digest, Base64.URL_SAFE or Base64.NO_WRAP or Base64.NO_PADDING)
             .replace("=", "")
     }
@@ -45,7 +43,6 @@ object AuthManager {
             .appendQueryParameter("code_challenge", codeChallenge)
             .build()
 
-    // Token exchange form body map
     fun tokenRequestBodyAuthCode(code: String, verifier: String): Map<String, String> = mapOf(
         "grant_type" to "authorization_code",
         "code" to code,

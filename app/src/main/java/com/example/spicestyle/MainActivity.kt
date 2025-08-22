@@ -1,5 +1,6 @@
 package com.example.spicestyle
 
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -19,26 +20,28 @@ class MainActivity : AppCompatActivity() {
 
         val status = findViewById<TextView>(R.id.status)
         val loginBtn = findViewById<Button>(R.id.loginBtn)
+        val nowPlayingBtn = findViewById<Button>(R.id.nowPlayingBtn)
 
-        // If we already have a token, show profile + playlists
-        val token = tokenStore.accessToken
-        if (token != null) {
+        // If already logged in, fetch profile + playlists
+        tokenStore.accessToken?.let { token ->
             status.text = "Authorized. Fetching profile…"
             fetchProfileAndPlaylists(status, token)
         }
 
-        loginBtn.setOnClickListener {
-            startLoginFlow()
+        // Login flow
+        loginBtn.setOnClickListener { startLoginFlow() }
+
+        // Open Now Playing screen
+        nowPlayingBtn.setOnClickListener {
+            startActivity(Intent(this, NowPlayingActivity::class.java))
         }
     }
 
     private fun startLoginFlow() {
-        // 1) PKCE verifier & challenge
         val verifier = AuthManager.generateCodeVerifier()
         val challenge = AuthManager.codeChallenge(verifier)
         tokenStore.codeVerifier = verifier
 
-        // 2) Launch CustomTab to authorize
         val authUri: Uri = AuthManager.buildAuthUri(challenge)
         CustomTabsIntent.Builder().build().launchUrl(this, authUri)
     }
@@ -48,7 +51,7 @@ class MainActivity : AppCompatActivity() {
             try {
                 val api = SpotifyClient.authed(accessToken)
                 val me = api.me()
-                val playlists = api.playlists(limit = 1) // just to get total
+                val playlists = api.playlists(limit = 1)
                 status.text = "Hello, ${me.displayName ?: "Spotify user"}\nPlaylists: ${playlists.total}"
             } catch (t: Throwable) {
                 Log.e("Main", "API error: ${t.message}", t)

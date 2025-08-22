@@ -4,21 +4,23 @@
     <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
-        android:label="SpiceStyle Web"
-        android:icon="@mipmap/ic_launcher">
+        android:label="SpiceStyle"
+        android:icon="@mipmap/ic_launcher"
+        android:theme="@style/Theme.SpiceStyle">
+
+        <!-- Handles the OAuth redirect spicestyle://callback -->
         <activity
             android:name=".AuthCallbackActivity"
             android:exported="true">
-            <!-- Handle the redirect from Spotify -->
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <!-- scheme/host MUST match what you register in Spotify Dashboard -->
                 <data android:scheme="spicestyle" android:host="callback" />
             </intent-filter>
         </activity>
 
+        <!-- Main entry point -->
         <activity
             android:name=".MainActivity"
             android:exported="true">
@@ -27,5 +29,11 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+
+        <!-- Now Playing screen -->
+        <activity
+            android:name=".NowPlayingActivity"
+            android:exported="false" />
+
     </application>
 </manifest>
