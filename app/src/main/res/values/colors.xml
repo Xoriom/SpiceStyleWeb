@@ -1,12 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="now_bg_start">#101014</color>
-    <color name="now_bg_end">#1E2430</color>
+    <!-- Iceberg palette -->
+    <color name="ice_abyss">#0B1021</color>
+    <color name="ice_trench">#08203C</color>
+    <color name="ice_midnight">#0D1F38</color>
+    <color name="ice_iceberg_deep">#0A2D50</color>
+    <color name="ice_fjord">#0E3F58</color>
+    <color name="ice_glacial">#13617A</color>
+    <color name="ice_shimmer">#2699B4</color>
 
-    <color name="now_text_primary">#FFFFFF</color>
-    <color name="now_text_secondary">#B3C0CF</color>
+    <color name="now_text_primary">#EAF2F7</color>
+    <color name="now_text_secondary">#AFC2D2</color>
 
-    <color name="now_accent">#34C759</color> <!-- Apple-ish green -->
-    <color name="now_button_bg">#222833</color>
-    <color name="now_button_stroke">#394252</color>
+    <color name="now_bg_start">#0B1021</color>
+    <color name="now_bg_end">#0D1F38</color>
+    <color name="now_button_bg">#08203C</color>
+    <color name="now_button_stroke">#0E3F58</color>
+    <color name="now_accent">#2699B4</color>
 </resources>

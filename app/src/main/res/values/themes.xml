@@ -1,17 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- App theme (light & dark handled by DayNight) -->
-    <style name="Theme.SpiceStyle" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <!-- Status bar tweaks -->
+    <style name="Theme.SpiceStyle.Base" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowLightStatusBar">false</item>
+    </style>
 
-        <!-- (optional) basic colors so Material has something to use -->
-        <item name="colorPrimary">@android:color/black</item>
-        <item name="colorOnPrimary">@android:color/white</item>
-        <item name="colorSecondary">@android:color/white</item>
-        <item name="android:navigationBarColor">@android:color/black</item>
+    <!-- Default theme -->
+    <style name="Theme.SpiceStyle.Default" parent="Theme.SpiceStyle.Base">
+        <item name="nowPlayingBackground">@drawable/now_playing_bg_default</item>
+        <item name="nowTextPrimary">#ECEFF4</item>
+        <item name="nowTextSecondary">#A7B0C0</item>
+        <item name="nowButtonBg">#202632</item>
+        <item name="nowButtonStroke">#2F3A4B</item>
+        <item name="nowAccent">#00BCD4</item>
+    </style>
+
+    <!-- Iceberg / Dribblish theme -->
+    <style name="Theme.SpiceStyle.Iceberg" parent="Theme.SpiceStyle.Base">
+        <item name="nowPlayingBackground">@drawable/now_playing_bg_iceberg</item>
+        <item name="nowTextPrimary">@color/now_text_primary</item>
+        <item name="nowTextSecondary">@color/now_text_secondary</item>
+        <item name="nowButtonBg">@color/now_button_bg</item>
+        <item name="nowButtonStroke">@color/now_button_stroke</item>
+        <item name="nowAccent">@color/now_accent</item>
     </style>
 
 </resources>
