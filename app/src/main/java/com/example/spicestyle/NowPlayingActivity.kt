@@ -1,7 +1,10 @@
 package com.example.spicestyle
 
 import android.os.Bundle
-import android.widget.*
+import android.widget.ImageView
+import android.widget.SeekBar
+import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -34,7 +37,8 @@ class NowPlayingActivity : AppCompatActivity() {
     private var progressMs: Long = 0L
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        ThemeManager.applyTheme(this)
+        // Apply theme first
+        ThemeManager.apply(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_now_playing)
 
@@ -56,14 +60,11 @@ class NowPlayingActivity : AppCompatActivity() {
         shuffleBtn = findViewById(R.id.shuffleBtn)
         repeatBtn = findViewById(R.id.repeatBtn)
 
-        // Controls
         prevBtn.setOnClickListener { lifecycleScope.launch { api.previous(); refresh() } }
         nextBtn.setOnClickListener { lifecycleScope.launch { api.next(); refresh() } }
         playPauseBtn.setOnClickListener {
             lifecycleScope.launch {
-                try {
-                    if (isPlaying) api.pause() else api.play()
-                } catch (_: Throwable) {}
+                try { if (isPlaying) api.pause() else api.play() } catch (_: Throwable) {}
                 refresh()
             }
         }
@@ -74,7 +75,6 @@ class NowPlayingActivity : AppCompatActivity() {
             lifecycleScope.launch { api.repeat("context"); Toast.makeText(this@NowPlayingActivity, "Repeat context", Toast.LENGTH_SHORT).show() }
         }
 
-        // Seekbar drag → seek
         seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {}
             override fun onStartTrackingTouch(p0: SeekBar?) {}
@@ -84,10 +84,8 @@ class NowPlayingActivity : AppCompatActivity() {
             }
         })
 
-        // Initial refresh
         lifecycleScope.launch { refresh() }
 
-        // Poll/ticker loop while resumed
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.RESUMED) {
                 while (true) {
@@ -118,11 +116,8 @@ class NowPlayingActivity : AppCompatActivity() {
                 subtitle.text = if (artist.isBlank() && album.isBlank()) "" else "$artist • $album"
 
                 val imgUrl = track?.album?.images?.maxByOrNull { it.width ?: 0 }?.url
-                if (!imgUrl.isNullOrEmpty()) {
-                    Glide.with(this@NowPlayingActivity).load(imgUrl).into(coverArt)
-                } else {
-                    coverArt.setImageDrawable(null)
-                }
+                if (!imgUrl.isNullOrEmpty()) Glide.with(this@NowPlayingActivity).load(imgUrl).into(coverArt)
+                else coverArt.setImageDrawable(null)
 
                 updateProgressUI()
                 playPauseBtn.setIconResource(
@@ -138,8 +133,7 @@ class NowPlayingActivity : AppCompatActivity() {
                 updateProgressUI()
                 playPauseBtn.setIconResource(android.R.drawable.ic_media_play)
             }
-        } catch (e: HttpException) {
-            // often 403/404 when no active device—ignore gently
+        } catch (_: HttpException) {
         } catch (_: Throwable) { }
     }
 

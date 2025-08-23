@@ -3,58 +3,41 @@ package com.example.spicestyle
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.lifecycleScope
-import kotlinx.coroutines.launch
-import retrofit2.HttpException
 
+/**
+ * Handles the OAuth redirect from Spotify (or any web auth callback).
+ * Make sure your manifest has an intent-filter for the redirect URI scheme.
+ */
 class AuthCallbackActivity : AppCompatActivity() {
-    private val tokenStore by lazy { TokenStore(this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        ThemeManager.applyTheme(this)
+        // Apply selected theme before super
+        ThemeManager.apply(this)
         super.onCreate(savedInstanceState)
 
-        val uri: Uri? = intent?.data
-        if (uri != null && uri.scheme == "spicestyle" && uri.host == "callback") {
-            val code = uri.getQueryParameter("code")
-            val error = uri.getQueryParameter("error")
-
-            if (error != null) {
-                Log.e("Auth", "Auth error: $error")
-                finishToMain()
-                return
+        // Handle the deep link (if any)
+        val data: Uri? = intent?.data
+        if (data != null) {
+            // Example: parse your access token from the redirect (adapt to your flow)
+            // e.g., myapp://callback#access_token=...&token_type=Bearer&expires_in=3600
+            val fragment = data.fragment.orEmpty()
+            val params = fragment.split("&").associate {
+                val parts = it.split("=")
+                parts.getOrNull(0).orEmpty() to parts.getOrNull(1).orEmpty()
             }
-
-            if (code != null) {
-                val verifier = tokenStore.codeVerifier ?: ""
-                lifecycleScope.launch {
-                    try {
-                        val tokens = SpotifyClient.auth()
-                            .getTokens(AuthManager.tokenRequestBodyAuthCode(code, verifier))
-                        tokenStore.accessToken = tokens.accessToken
-                        tokens.refreshToken?.let { tokenStore.refreshToken = it }
-                    } catch (e: HttpException) {
-                        Log.e("Auth", "Token exchange failed: ${e.code()} ${e.message()}", e)
-                    } catch (t: Throwable) {
-                        Log.e("Auth", "Token exchange failure: ${t.message}", t)
-                    } finally {
-                        finishToMain()
-                    }
-                }
-                return
+            val token = params["access_token"]
+            if (!token.isNullOrEmpty()) {
+                TokenStore(this).accessToken = token
+                Toast.makeText(this, "Logged in", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this, "Login failed", Toast.LENGTH_SHORT).show()
             }
         }
 
-        finishToMain()
-    }
-
-    private fun finishToMain() {
-        // Go straight to Now Playing instead of Main
-        startActivity(Intent(this, NowPlayingActivity::class.java).addFlags(
-            Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
-        ))
+        // Return to main screen
+        startActivity(Intent(this, MainActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
         finish()
     }
 }
