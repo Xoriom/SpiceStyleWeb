@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Dribblish-inspired themes using the iceberg palette -->
+    <style name="Theme.SpiceStyle.DribblishOcean" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/iceberg_dark_navy</item>
+        <item name="colorOnPrimary">@color/iceberg_light_cyan</item>
+        <item name="colorSecondary">@color/iceberg_bright_cyan</item>
+        <item name="android:navigationBarColor">@color/iceberg_dark_navy</item>
+    </style>
+
+    <style name="Theme.SpiceStyle.DribblishGlacier" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/iceberg_deep_teal</item>
+        <item name="colorOnPrimary">@color/iceberg_light_cyan</item>
+        <item name="colorSecondary">@color/iceberg_vivid_blue</item>
+        <item name="android:navigationBarColor">@color/iceberg_deep_teal</item>
+    </style>
+
+    <style name="Theme.SpiceStyle.DribblishAurora" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/iceberg_mid_blue</item>
+        <item name="colorOnPrimary">@color/iceberg_light_cyan</item>
+        <item name="colorSecondary">@color/iceberg_bright_cyan</item>
+        <item name="android:navigationBarColor">@color/iceberg_mid_blue</item>
+    </style>
+</resources>
