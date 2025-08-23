@@ -37,15 +37,13 @@ class NowPlayingActivity : AppCompatActivity() {
     private var progressMs: Long = 0L
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        // Apply theme first
         ThemeManager.apply(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_now_playing)
 
         if (tokenStore.accessToken.isNullOrEmpty()) {
-            Toast.makeText(this, "Please login first", Toast.LENGTH_SHORT).show()
-            finish()
-            return
+            Toast.makeText(this, "Please log in first (no token).", Toast.LENGTH_LONG).show()
+            finish(); return
         }
 
         coverArt = findViewById(R.id.coverArt)

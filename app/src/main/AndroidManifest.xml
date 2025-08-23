@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.spicestyle">
 
@@ -26,9 +27,7 @@
 
         <activity
             android:name=".AuthCallbackActivity"
-            android:exported="true">
-            <!-- keep whatever intent-filter you set for your redirect URI -->
-        </activity>
+            android:exported="true" />
 
         <activity
             android:name=".MainActivity"

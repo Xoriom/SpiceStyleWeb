@@ -9,7 +9,6 @@ import com.google.android.material.button.MaterialButton
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        // Apply theme first
         ThemeManager.apply(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)

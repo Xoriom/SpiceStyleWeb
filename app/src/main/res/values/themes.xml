@@ -17,11 +17,11 @@
 
     <style name="Theme.SpiceStyle.Iceberg" parent="Theme.SpiceStyle.Base">
         <item name="nowPlayingBackground">@drawable/now_playing_bg_iceberg</item>
-        <item name="nowTextPrimary">@color/now_text_primary</item>
-        <item name="nowTextSecondary">@color/now_text_secondary</item>
-        <item name="nowButtonBg">@color/now_button_bg</item>
-        <item name="nowButtonStroke">@color/now_button_stroke</item>
-        <item name="nowAccent">@color/now_accent</item>
+        <item name="nowTextPrimary">#E5EEF4</item>
+        <item name="nowTextSecondary">#A9C0D2</item>
+        <item name="nowButtonBg">#1C2A36</item>
+        <item name="nowButtonStroke">#2A3C4B</item>
+        <item name="nowAccent">#65D1E6</item>
     </style>
 
 </resources>
