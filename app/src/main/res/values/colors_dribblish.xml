@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Palette sampled from iceberg photo, excluding pure white and black -->
+    <color name="iceberg_dark_navy">#001233</color>
+    <color name="iceberg_deep_teal">#003566</color>
+    <color name="iceberg_mid_blue">#0077B6</color>
+    <color name="iceberg_vivid_blue">#0096C7</color>
+    <color name="iceberg_bright_cyan">#00B4D8</color>
+    <color name="iceberg_light_cyan">#90E0EF</color>
+</resources>

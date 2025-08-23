@@ -2,11 +2,16 @@
 <resources>
     <string name="app_name">SpiceStyle</string>
 
-    <!-- Now Playing content descriptions / labels -->
+    <!-- Settings -->
+    <string name="settings_title">Settings</string>
+    <string name="default_theme">Default Theme</string>
+    <string name="iceberg_theme">Iceberg Theme</string>
+
+    <!-- Now Playing -->
     <string name="album_art">Album art</string>
     <string name="prev">Previous</string>
-    <string name="play_pause">Play/Pause</string>
     <string name="next">Next</string>
+    <string name="play_pause">Play / Pause</string>
     <string name="shuffle">Shuffle</string>
     <string name="repeat">Repeat</string>
 </resources>

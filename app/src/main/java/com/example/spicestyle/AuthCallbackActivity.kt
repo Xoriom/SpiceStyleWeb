@@ -13,6 +13,7 @@ class AuthCallbackActivity : AppCompatActivity() {
     private val tokenStore by lazy { TokenStore(this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        ThemeManager.applyTheme(this)
         super.onCreate(savedInstanceState)
 
         val uri: Uri? = intent?.data
