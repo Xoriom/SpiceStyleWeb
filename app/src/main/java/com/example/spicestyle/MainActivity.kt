@@ -2,48 +2,29 @@ package com.example.spicestyle
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
-import androidx.appcompat.app.AlertDialog
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.button.MaterialButton
 
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        // Apply selected theme BEFORE super
+        // Apply theme first
         ThemeManager.apply(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-    }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.menu_main, menu)  // has Settings entry
-        return true
-    }
+        val nowBtn = findViewById<MaterialButton>(R.id.btn_now_playing)
+        val settingsBtn = findViewById<MaterialButton>(R.id.btn_settings)
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.action_settings -> {
-                startActivity(Intent(this, SettingsActivity::class.java))
-                true
-            }
-            // Optional: quick theme switcher right from Main
-            else -> super.onOptionsItemSelected(item)
+        nowBtn.setOnClickListener {
+            Toast.makeText(this, "Opening Now Playing…", Toast.LENGTH_SHORT).show()
+            startActivity(Intent(this, NowPlayingActivity::class.java))
         }
-    }
 
-    /** Optional helper to show a quick theme picker dialog (if you want it here). */
-    private fun showThemePicker() {
-        val items = arrayOf("Default", "Iceberg")
-        AlertDialog.Builder(this)
-            .setTitle("Choose Theme")
-            .setItems(items) { _, which ->
-                when (which) {
-                    0 -> ThemeManager.setTheme(this, "default")
-                    1 -> ThemeManager.setTheme(this, "iceberg")
-                }
-                recreate()
-            }
-            .show()
+        settingsBtn.setOnClickListener {
+            Toast.makeText(this, "Opening Settings…", Toast.LENGTH_SHORT).show()
+            startActivity(Intent(this, SettingsActivity::class.java))
+        }
     }
 }
