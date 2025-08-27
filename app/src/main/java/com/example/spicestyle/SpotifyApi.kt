@@ -1,32 +1,49 @@
 package com.example.spicestyle
 
-import android.os.Bundle
-import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
+import retrofit2.Response
+import retrofit2.http.GET
+import retrofit2.http.Header
+import retrofit2.http.POST
+import retrofit2.http.PUT
+import retrofit2.http.Query
 
-class NowPlayingActivity : AppCompatActivity() {
+interface SpotifyApi {
 
-    private lateinit var tokenStore: TokenStore
+    @GET("me/player/currently-playing")
+    suspend fun getCurrentlyPlaying(
+        @Header("Authorization") bearer: String
+    ): Response<CurrentlyPlayingResponse>
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    @PUT("me/player/pause")
+    suspend fun pause(
+        @Header("Authorization") bearer: String
+    ): Response<Unit>
 
-        // Initialize your token store (make sure you already have TokenStore implemented)
-        tokenStore = TokenStore(this)
+    @PUT("me/player/play")
+    suspend fun play(
+        @Header("Authorization") bearer: String
+    ): Response<Unit>
 
-        // 🔹 Guard against missing token with a Toast
-        if (tokenStore.accessToken.isNullOrEmpty()) {
-            Toast.makeText(
-                this,
-                "Please log in first (no token).",
-                Toast.LENGTH_LONG
-            ).show()
-            finish()
-            return
-        }
+    @POST("me/player/next")
+    suspend fun next(
+        @Header("Authorization") bearer: String
+    ): Response<Unit>
 
-        setContentView(R.layout.activity_now_playing)
+    @POST("me/player/previous")
+    suspend fun previous(
+        @Header("Authorization") bearer: String
+    ): Response<Unit>
 
-        // TODO: Continue setting up UI + Spotify API calls here...
-    }
+    @PUT("me/player/shuffle")
+    suspend fun shuffle(
+        @Header("Authorization") bearer: String,
+        @Query("state") state: Boolean
+    ): Response<Unit>
+
+    // state = "track" | "context" | "off"
+    @PUT("me/player/repeat")
+    suspend fun repeat(
+        @Header("Authorization") bearer: String,
+        @Query("state") state: String
+    ): Response<Unit>
 }

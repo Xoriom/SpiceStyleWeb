@@ -1,20 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Iceberg palette -->
-    <color name="ice_abyss">#0B1021</color>
-    <color name="ice_trench">#08203C</color>
-    <color name="ice_midnight">#0D1F38</color>
-    <color name="ice_iceberg_deep">#0A2D50</color>
-    <color name="ice_fjord">#0E3F58</color>
-    <color name="ice_glacial">#13617A</color>
-    <color name="ice_shimmer">#2699B4</color>
+    <!-- Iceberg-inspired palette -->
+    <color name="ic_launcher_tint">#E5EEF4</color>
 
-    <color name="now_text_primary">#EAF2F7</color>
-    <color name="now_text_secondary">#AFC2D2</color>
+    <color name="now_bg_start">#0E141B</color>
+    <color name="now_bg_center">#121A23</color>
+    <color name="now_bg_end">#151F29</color>
 
-    <color name="now_bg_start">#0B1021</color>
-    <color name="now_bg_end">#0D1F38</color>
-    <color name="now_button_bg">#08203C</color>
-    <color name="now_button_stroke">#0E3F58</color>
-    <color name="now_accent">#2699B4</color>
+    <color name="iceberg_bg_start">#0B1720</color>
+    <color name="iceberg_bg_center">#102330</color>
+    <color name="iceberg_bg_end">#153042</color>
+
+    <color name="now_text_primary">#ECEFF4</color>
+    <color name="now_text_secondary">#A7B0C0</color>
+    <color name="now_button_bg">#202632</color>
+    <color name="now_button_stroke">#2F3A4B</color>
+    <color name="now_accent">#65D1E6</color>
+
+    <!-- Button colors -->
+    <color name="btn_primary_background">#2563EB</color> <!-- blue-600 -->
+    <color name="btn_primary_foreground">#FFFFFFFF</color>
+    <color name="btn_primary_ripple">#33FFFFFF</color>
+
 </resources>

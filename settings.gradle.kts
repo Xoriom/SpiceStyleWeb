@@ -1,9 +1,18 @@
 pluginManagement {
-    repositories { google(); mavenCentral(); gradlePluginPortal() }
+    repositories {
+        gradlePluginPortal()
+        google()
+        mavenCentral()
+    }
 }
+
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
-    repositories { google(); mavenCentral() }
+    repositories {
+        google()
+        mavenCentral()
+    }
 }
-rootProject.name = "SpiceStyleWeb"
+
+rootProject.name = "SpiceStyle2"
 include(":app")

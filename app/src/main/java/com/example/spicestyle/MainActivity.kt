@@ -1,29 +1,23 @@
 package com.example.spicestyle
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.material.button.MaterialButton
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
 
-class MainActivity : AppCompatActivity() {
-
+class AuthCallbackActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
-        ThemeManager.apply(this)
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
 
-        val nowBtn = findViewById<MaterialButton>(R.id.btn_now_playing)
-        val settingsBtn = findViewById<MaterialButton>(R.id.btn_settings)
-
-        nowBtn.setOnClickListener {
-            Toast.makeText(this, "Opening Now Playing…", Toast.LENGTH_SHORT).show()
-            startActivity(Intent(this, NowPlayingActivity::class.java))
-        }
-
-        settingsBtn.setOnClickListener {
-            Toast.makeText(this, "Opening Settings…", Toast.LENGTH_SHORT).show()
-            startActivity(Intent(this, SettingsActivity::class.java))
+        val data: Uri? = intent?.data
+        lifecycleScope.launch {
+            val ok = AuthManager.handleRedirect(this@AuthCallbackActivity, data)
+            // Return to Main
+            startActivity(Intent(this@AuthCallbackActivity, MainActivity::class.java)
+                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP))
+            finish()
         }
     }
 }

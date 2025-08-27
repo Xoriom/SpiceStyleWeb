@@ -1,17 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <!-- App -->
     <string name="app_name">SpiceStyle</string>
 
-    <!-- Settings -->
+    <!-- Activity titles -->
+    <string name="now_playing_title">Now Playing</string>
     <string name="settings_title">Settings</string>
-    <string name="default_theme">Default Theme</string>
-    <string name="iceberg_theme">Iceberg Theme</string>
 
-    <!-- Now Playing -->
+    <!-- Settings / Theme options -->
+    <string name="default_theme">Default</string>
+    <string name="iceberg_theme">Dribblish Iceberg</string>
+    <string name="dribblish_glacier">Dribblish Glacier</string>
+    <string name="dribblish_aurora">Dribblish Aurora</string>
+
+    <!-- Misc (use if needed elsewhere) -->
+    <string name="action_settings">Settings</string>
+    <string name="connect_spotify">Connect to Spotify</string>
+
+    <!-- Now Playing content descriptions / labels -->
     <string name="album_art">Album art</string>
     <string name="prev">Previous</string>
-    <string name="next">Next</string>
     <string name="play_pause">Play / Pause</string>
+    <string name="next">Next</string>
     <string name="shuffle">Shuffle</string>
     <string name="repeat">Repeat</string>
+
+    //Spotify API keys
+    <string name="spotify_client_id">"a8d8149eaa8c4030bf16fc36eca2d496"</string>
+
+    <!-- Redirect URI pieces (example: spicestyle://auth/callback) -->
+    <string name="spotify_redirect_scheme">spicestyle</string>
+    <string name="spotify_redirect_host">auth</string>
+    <string name="spotify_redirect_path">/callback</string>
+
+    <string name="spotify_redirect_uri">spicestyle://auth/callback</string>
+
+
 </resources>

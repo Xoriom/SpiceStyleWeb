@@ -1,179 +1,148 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:padding="20dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/nowPlayingBackground"
-    android:padding="24dp">
+    android:background="?attr/nowPlayingBackground">
 
-    <!-- Album Art -->
-    <com.google.android.material.imageview.ShapeableImageView
+    <ImageView
         android:id="@+id/coverArt"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:contentDescription="@string/album_art"
-        android:scaleType="centerCrop"
-        app:layout_constraintBottom_toTopOf="@+id/title"
-        app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:shapeAppearanceOverlay="@style/Shape.RoundedXL"
-        app:strokeColor="?attr/nowButtonStroke"
-        app:strokeWidth="1dp" />
+        android:layout_weight="5"
+        android:scaleType="fitCenter"
+        android:contentDescription="@string/album_art" />
 
-    <!-- Title -->
     <TextView
         android:id="@+id/title"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="18dp"
-        android:maxLines="2"
-        android:textColor="?attr/nowTextPrimary"
-        android:textSize="22sp"
+        android:text="Track Title"
+        android:textSize="20sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/coverArt" />
+        android:textColor="?attr/nowTextPrimary"
+        android:layout_marginTop="16dp" />
 
-    <!-- Subtitle -->
     <TextView
         android:id="@+id/subtitle"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:maxLines="1"
+        android:text="Artist • Album"
+        android:textSize="14sp"
         android:textColor="?attr/nowTextSecondary"
-        android:textSize="15sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/title" />
+        android:layout_marginTop="4dp" />
 
-    <!-- Elapsed -->
-    <TextView
-        android:id="@+id/elapsed"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="0:00"
-        android:textColor="?attr/nowTextSecondary"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/subtitle" />
-
-    <!-- Duration -->
-    <TextView
-        android:id="@+id/duration"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="0:00"
-        android:textColor="?attr/nowTextSecondary"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/subtitle" />
-
-    <!-- Seekbar -->
     <SeekBar
         android:id="@+id/seekBar"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        app:layout_constraintEnd_toStartOf="@id/duration"
-        app:layout_constraintStart_toEndOf="@id/elapsed"
-        app:layout_constraintTop_toBottomOf="@id/subtitle" />
+        android:layout_marginTop="16dp" />
 
-    <!-- Transport Controls -->
     <LinearLayout
-        android:id="@+id/controlsRow"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="18dp"
+        android:orientation="horizontal"
+        android:layout_marginTop="4dp">
+
+        <TextView
+            android:id="@+id/elapsed"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="0:00"
+            android:textColor="?attr/nowTextSecondary" />
+
+        <TextView
+            android:id="@+id/duration"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="end"
+            android:text="3:59"
+            android:textColor="?attr/nowTextSecondary" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"
         android:gravity="center"
         android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/seekBar">
+        android:layout_marginTop="8dp">
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/prevBtn"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:backgroundTint="?attr/nowButtonBg"
-            android:contentDescription="@string/prev"
-            android:tint="?attr/nowTextPrimary"
-            app:cornerRadius="28dp"
-            app:icon="@android:drawable/ic_media_previous"
-            app:iconPadding="0dp"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="@string/prev"
+            android:textColor="?attr/nowTextPrimary"
             app:strokeColor="?attr/nowButtonStroke"
-            app:strokeWidth="1dp" />
+            app:strokeWidth="1dp"
+            android:backgroundTint="?attr/nowButtonBg"
+            app:cornerRadius="16dp" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/playPauseBtn"
             style="@style/Widget.MaterialComponents.Button"
-            android:layout_width="72dp"
-            android:layout_height="72dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="@string/play_pause"
+            android:textColor="@android:color/white"
             android:backgroundTint="?attr/nowAccent"
-            android:contentDescription="@string/play_pause"
-            android:tint="@android:color/white"
-            app:cornerRadius="36dp"
-            app:icon="@android:drawable/ic_media_play"
-            app:iconPadding="0dp" />
+            app:cornerRadius="16dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/nextBtn"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:backgroundTint="?attr/nowButtonBg"
-            android:contentDescription="@string/next"
-            android:tint="?attr/nowTextPrimary"
-            app:cornerRadius="28dp"
-            app:icon="@android:drawable/ic_media_next"
-            app:iconPadding="0dp"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="@string/next"
+            android:textColor="?attr/nowTextPrimary"
             app:strokeColor="?attr/nowButtonStroke"
-            app:strokeWidth="1dp" />
+            app:strokeWidth="1dp"
+            android:backgroundTint="?attr/nowButtonBg"
+            app:cornerRadius="16dp" />
     </LinearLayout>
 
-    <!-- Shuffle / Repeat -->
     <LinearLayout
-        android:id="@+id/togglesRow"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:gravity="center"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/controlsRow">
+        android:orientation="horizontal">
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/shuffleBtn"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:backgroundTint="?attr/nowButtonBg"
-            android:paddingStart="18dp"
-            android:paddingEnd="18dp"
+            android:layout_height="wrap_content"
             android:text="@string/shuffle"
             android:textColor="?attr/nowTextPrimary"
             app:strokeColor="?attr/nowButtonStroke"
-            app:strokeWidth="1dp" />
+            app:strokeWidth="1dp"
+            android:backgroundTint="?attr/nowButtonBg"
+            app:cornerRadius="16dp"
+            android:layout_marginEnd="8dp" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/repeatBtn"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_marginStart="16dp"
-            android:backgroundTint="?attr/nowButtonBg"
-            android:paddingStart="18dp"
-            android:paddingEnd="18dp"
+            android:layout_height="wrap_content"
             android:text="@string/repeat"
             android:textColor="?attr/nowTextPrimary"
             app:strokeColor="?attr/nowButtonStroke"
-            app:strokeWidth="1dp" />
+            app:strokeWidth="1dp"
+            android:backgroundTint="?attr/nowButtonBg"
+            app:cornerRadius="16dp" />
     </LinearLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

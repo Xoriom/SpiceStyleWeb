@@ -15,14 +15,14 @@ class SettingsActivity : AppCompatActivity() {
         val icebergBtn = findViewById<Button>(R.id.btn_iceberg_theme)
 
         defaultBtn.setOnClickListener {
-            Toast.makeText(this, "Switching to Default", Toast.LENGTH_SHORT).show()
             ThemeManager.setTheme(this, "default")
+            Toast.makeText(this, "Switched to Default", Toast.LENGTH_SHORT).show()
             recreate()
         }
 
         icebergBtn.setOnClickListener {
-            Toast.makeText(this, "Switching to Iceberg", Toast.LENGTH_SHORT).show()
             ThemeManager.setTheme(this, "iceberg")
+            Toast.makeText(this, "Switched to Iceberg", Toast.LENGTH_SHORT).show()
             recreate()
         }
     }

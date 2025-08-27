@@ -1,53 +1,43 @@
 package com.example.spicestyle
 
-import retrofit2.Response
+import okhttp3.Interceptor
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
-// --- minimal data models used by NowPlayingActivity ---
-data class Image(val url: String? = null, val width: Int? = null, val height: Int? = null)
-data class Album(val name: String? = null, val images: List<Image>? = null)
-data class Artist(val name: String? = null)
-data class Track(
-    val name: String? = null,
-    val durationMs: Long? = 0L,
-    val album: Album? = null,
-    val artists: List<Artist>? = null
-)
-data class CurrentlyPlaying(
-    val item: Track? = null,
-    val isPlaying: Boolean? = false,
-    val progressMs: Long? = 0L
-)
+object SpotifyClient {
 
-// --- stubbed client so the project builds and UI works ---
-class SpotifyClient private constructor(private val token: String) {
+    private const val BASE_URL = "https://api.spotify.com/v1/"
 
-    companion object {
-        fun authed(token: String): SpotifyClient = SpotifyClient(token)
+    private val logging: HttpLoggingInterceptor by lazy {
+        HttpLoggingInterceptor().apply {
+            level = HttpLoggingInterceptor.Level.BASIC
+        }
     }
 
-    suspend fun previous() { /* TODO real call */ }
-    suspend fun next() { /* TODO real call */ }
-    suspend fun pause() { /* TODO real call */ }
-    suspend fun play() { /* TODO real call */ }
-    suspend fun shuffle(on: Boolean) { /* TODO real call */ }
-    suspend fun repeat(mode: String) { /* TODO real call */ }
-    suspend fun seek(ms: Long) { /* TODO real call */ }
+    fun api(accessTokenProvider: () -> String?): SpotifyApi {
+        val authInterceptor = Interceptor { chain ->
+            val original = chain.request()
+            val token = accessTokenProvider()
+            val builder = original.newBuilder()
+            if (!token.isNullOrBlank()) {
+                builder.addHeader("Authorization", "Bearer $token")
+            }
+            chain.proceed(builder.build())
+        }
 
-    suspend fun currentlyPlaying(): Response<CurrentlyPlaying> {
-        // placeholder data so UI shows something
-        val demo = CurrentlyPlaying(
-            item = Track(
-                name = "Demo Track",
-                durationMs = 240_000,
-                album = Album(
-                    name = "Demo Album",
-                    images = listOf(Image("https://i.scdn.co/image/ab67616d0000b273a0a0a0a0a0a0a0a0a0a0a0a0", 640, 640))
-                ),
-                artists = listOf(Artist("Demo Artist"))
-            ),
-            isPlaying = true,
-            progressMs = 45_000
-        )
-        return Response.success(demo)
+        val client = OkHttpClient.Builder()
+            .addInterceptor(logging)
+            .addInterceptor(authInterceptor)
+            .build()
+
+        val retrofit = Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .client(client)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+
+        return retrofit.create(SpotifyApi::class.java)
     }
 }

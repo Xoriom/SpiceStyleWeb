@@ -1,43 +1,37 @@
 package com.example.spicestyle
 
+import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
 
-/**
- * Handles the OAuth redirect from Spotify (or any web auth callback).
- * Make sure your manifest has an intent-filter for the redirect URI scheme.
- */
-class AuthCallbackActivity : AppCompatActivity() {
+class AuthCallbackActivity : Activity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        // Apply selected theme before super
-        ThemeManager.apply(this)
         super.onCreate(savedInstanceState)
 
-        // Handle the deep link (if any)
         val data: Uri? = intent?.data
-        if (data != null) {
-            // Example: parse your access token from the redirect (adapt to your flow)
-            // e.g., myapp://callback#access_token=...&token_type=Bearer&expires_in=3600
-            val fragment = data.fragment.orEmpty()
-            val params = fragment.split("&").associate {
-                val parts = it.split("=")
-                parts.getOrNull(0).orEmpty() to parts.getOrNull(1).orEmpty()
-            }
-            val token = params["access_token"]
-            if (!token.isNullOrEmpty()) {
-                TokenStore(this).accessToken = token
-                Toast.makeText(this, "Logged in", Toast.LENGTH_SHORT).show()
-            } else {
-                Toast.makeText(this, "Login failed", Toast.LENGTH_SHORT).show()
-            }
+        if (data == null) {
+            finish()
+            return
         }
 
-        // Return to main screen
-        startActivity(Intent(this, MainActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
-        finish()
+        val mgr = SpotifyAuthManager(this)
+        lifecycleScope.launch {
+            val ok = mgr.handleRedirect(data)
+            Toast.makeText(
+                this@AuthCallbackActivity,
+                if (ok) "Spotify connected!" else "Spotify auth failed",
+                Toast.LENGTH_SHORT
+            ).show()
+
+            // Go back to Main
+            startActivity(Intent(this@AuthCallbackActivity, MainActivity::class.java)
+                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP))
+            finish()
+        }
     }
 }

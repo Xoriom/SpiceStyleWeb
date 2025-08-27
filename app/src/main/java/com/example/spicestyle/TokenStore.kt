@@ -3,36 +3,26 @@ package com.example.spicestyle
 import android.content.Context
 import android.content.SharedPreferences
 
-class TokenStore(context: Context) {
-    private val prefs: SharedPreferences =
-        context.getSharedPreferences("spotify_prefs", Context.MODE_PRIVATE)
+object TokenStore {
+    private const val PREF = "spotify_tokens"
+    private const val KEY_ACCESS = "access_token"
+    private const val KEY_REFRESH = "refresh_token"
+    private const val KEY_EXPIRES = "expires_at" // epoch millis
 
-    companion object {
-        private const val KEY_ACCESS_TOKEN = "access_token"
-        private const val KEY_EXPIRES_AT = "expires_at"
-    }
+    private fun prefs(ctx: Context): SharedPreferences =
+        ctx.getSharedPreferences(PREF, Context.MODE_PRIVATE)
 
-    val accessToken: String?
-        get() = prefs.getString(KEY_ACCESS_TOKEN, null)
-
-    val expiresAt: Long
-        get() = prefs.getLong(KEY_EXPIRES_AT, 0L)
-
-    fun saveToken(token: String, expiresInSeconds: Long) {
-        val expiresAt = System.currentTimeMillis() + (expiresInSeconds * 1000)
-        prefs.edit()
-            .putString(KEY_ACCESS_TOKEN, token)
-            .putLong(KEY_EXPIRES_AT, expiresAt)
+    fun saveTokens(ctx: Context, access: String, refresh: String?, expiresAtMillis: Long) {
+        prefs(ctx).edit()
+            .putString(KEY_ACCESS, access)
+            .putString(KEY_REFRESH, refresh)
+            .putLong(KEY_EXPIRES, expiresAtMillis)
             .apply()
     }
 
-    fun clear() {
-        prefs.edit().clear().apply()
-    }
+    fun accessToken(ctx: Context): String? = prefs(ctx).getString(KEY_ACCESS, null)
+    fun refreshToken(ctx: Context): String? = prefs(ctx).getString(KEY_REFRESH, null)
+    fun expiresAt(ctx: Context): Long = prefs(ctx).getLong(KEY_EXPIRES, 0L)
 
-    fun isTokenValid(): Boolean {
-        val token = accessToken
-        val now = System.currentTimeMillis()
-        return !token.isNullOrEmpty() && now < expiresAt
-    }
+    fun clear(ctx: Context) { prefs(ctx).edit().clear().apply() }
 }
