@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="now_text_primary">#FFFFFFFF</color>
+    <color name="now_text_secondary">#B3FFFFFF</color> <!-- 70% white -->
+    <color name="now_button_bg">#1AFFFFFF</color>     <!-- 10% white -->
+    <color name="now_button_stroke">#33FFFFFF</color> <!-- 20% white -->
+    <color name="now_accent">#1DB954</color>
+</resources>

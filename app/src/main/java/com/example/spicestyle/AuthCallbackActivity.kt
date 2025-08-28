@@ -3,57 +3,43 @@ package com.example.spicestyle
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
-import androidx.appcompat.app.AppCompatActivity
+import androidx.activity.ComponentActivity
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
-import retrofit2.HttpException
 
-class AuthCallbackActivity : AppCompatActivity() {
-    private val tokenStore by lazy { TokenStore(this) }
+class AuthCallbackActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val uri: Uri? = intent?.data
-        if (uri != null && uri.scheme == "spicestyle" && uri.host == "callback") {
-            val code = uri.getQueryParameter("code")
-            val error = uri.getQueryParameter("error")
+        val data: Uri? = intent?.data
+        val code = data?.getQueryParameter("code")
+        val error = data?.getQueryParameter("error")
 
-            if (error != null) {
-                Log.e("Auth", "Auth error: $error")
-                finishToMain()
-                return
-            }
-
-            if (code != null) {
-                val verifier = tokenStore.codeVerifier ?: ""
-                lifecycleScope.launch {
-                    try {
-                        val tokens = SpotifyClient.auth()
-                            .getTokens(AuthManager.tokenRequestBodyAuthCode(code, verifier))
-                        tokenStore.accessToken = tokens.accessToken
-                        tokens.refreshToken?.let { tokenStore.refreshToken = it }
-                    } catch (e: HttpException) {
-                        Log.e("Auth", "Token exchange failed: ${e.code()} ${e.message()}", e)
-                    } catch (t: Throwable) {
-                        Log.e("Auth", "Token exchange failure: ${t.message}", t)
-                    } finally {
-                        finishToMain()
-                    }
-                }
-                return
-            }
+        if (error != null) {
+            // Handle error from Spotify (user canceled / denied)
+            startActivity(Intent(this, MainActivity::class.java))
+            finish()
+            return
         }
 
-        finishToMain()
-    }
+        if (code.isNullOrBlank()) {
+            // No code → just return to main
+            startActivity(Intent(this, MainActivity::class.java))
+            finish()
+            return
+        }
 
-    private fun finishToMain() {
-        // Go straight to Now Playing instead of Main
-        startActivity(Intent(this, NowPlayingActivity::class.java).addFlags(
-            Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
-        ))
-        finish()
+        lifecycleScope.launch {
+            try {
+                val token = SpotifyAuthManager.exchangeCode(code)
+                // TODO: persist token.access_token (EncryptedSharedPreferences recommended)
+            } catch (t: Throwable) {
+                // Log/report failure if needed
+            } finally {
+                startActivity(Intent(this@AuthCallbackActivity, MainActivity::class.java))
+                finish()
+            }
+        }
     }
 }

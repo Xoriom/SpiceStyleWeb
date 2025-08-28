@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="nowPlayingBackground" format="reference|color" />
+    <attr name="nowTextPrimary" format="color" />
+    <attr name="nowTextSecondary" format="color" />
+    <attr name="nowButtonBg" format="color" />
+    <attr name="nowButtonStroke" format="color" />
+    <attr name="nowAccent" format="color" />
+</resources>
