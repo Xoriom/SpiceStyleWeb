@@ -1,27 +1,24 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Theme.SpiceStyle.Base" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <item name="android:statusBarColor">@android:color/transparent</item>
-        <item name="android:windowLightStatusBar">false</item>
+    <!-- App theme -->
+    <style name="Theme.SpiceStyle" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your theme colors as needed -->
+        <item name="colorPrimary">@color/purple_500</item>
+        <item name="colorPrimaryDark">@color/purple_700</item>
+        <item name="colorAccent">@color/teal_200</item>
     </style>
 
-    <style name="Theme.SpiceStyle.Default" parent="Theme.SpiceStyle.Base">
-        <item name="nowPlayingBackground">@drawable/now_playing_bg_default</item>
-        <item name="nowTextPrimary">@color/now_text_primary</item>
-        <item name="nowTextSecondary">@color/now_text_secondary</item>
-        <item name="nowButtonBg">@color/now_button_bg</item>
-        <item name="nowButtonStroke">@color/now_button_stroke</item>
-        <item name="nowAccent">@color/now_accent</item>
+    <!-- Optional variants -->
+    <style name="Theme.SpiceStyle.Light" parent="Theme.Material3.Light.NoActionBar">
+        <item name="colorPrimary">@color/purple_500</item>
+        <item name="colorPrimaryDark">@color/purple_700</item>
+        <item name="colorAccent">@color/teal_200</item>
     </style>
 
-    <style name="Theme.SpiceStyle.Iceberg" parent="Theme.SpiceStyle.Base">
-        <item name="nowPlayingBackground">@drawable/now_playing_bg_iceberg</item>
-        <item name="nowTextPrimary">@color/now_text_primary</item>
-        <item name="nowTextSecondary">@color/now_text_secondary</item>
-        <item name="nowButtonBg">@color/now_button_bg</item>
-        <item name="nowButtonStroke">@color/now_button_stroke</item>
-        <item name="nowAccent">@color/now_accent</item>
+    <style name="Theme.SpiceStyle.Dark" parent="Theme.Material3.Dark.NoActionBar">
+        <item name="colorPrimary">@color/purple_200</item>
+        <item name="colorPrimaryDark">@color/purple_700</item>
+        <item name="colorAccent">@color/teal_200</item>
     </style>
 
 </resources>

@@ -1,2 +1,1 @@
-// empty on purpose to avoid pulling conflicting plugin versions
-plugins { }
+// Intentionally minimal. All plugins/deps are in :app

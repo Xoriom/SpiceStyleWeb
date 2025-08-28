@@ -1,37 +1,45 @@
 package com.example.spicestyle
 
-import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.widget.Toast
+import androidx.activity.ComponentActivity
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
 
-class AuthCallbackActivity : Activity() {
+class AuthCallbackActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         val data: Uri? = intent?.data
-        if (data == null) {
+        val code = data?.getQueryParameter("code")
+        val error = data?.getQueryParameter("error")
+
+        if (error != null) {
+            // Handle error from Spotify (user canceled / denied)
+            startActivity(Intent(this, MainActivity::class.java))
             finish()
             return
         }
 
-        val mgr = SpotifyAuthManager(this)
-        lifecycleScope.launch {
-            val ok = mgr.handleRedirect(data)
-            Toast.makeText(
-                this@AuthCallbackActivity,
-                if (ok) "Spotify connected!" else "Spotify auth failed",
-                Toast.LENGTH_SHORT
-            ).show()
-
-            // Go back to Main
-            startActivity(Intent(this@AuthCallbackActivity, MainActivity::class.java)
-                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP))
+        if (code.isNullOrBlank()) {
+            // No code → just return to main
+            startActivity(Intent(this, MainActivity::class.java))
             finish()
+            return
+        }
+
+        lifecycleScope.launch {
+            try {
+                val token = SpotifyAuthManager.exchangeCode(code)
+                // TODO: persist token.access_token (EncryptedSharedPreferences recommended)
+            } catch (t: Throwable) {
+                // Log/report failure if needed
+            } finally {
+                startActivity(Intent(this@AuthCallbackActivity, MainActivity::class.java))
+                finish()
+            }
         }
     }
 }
